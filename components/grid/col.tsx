@@ -85,6 +85,7 @@ export default class Col extends React.Component<ColProps, {}> {
       };
     });
     const classes = classNames(
+      prefixCls,
       {
         [`${prefixCls}-${span}`]: span !== undefined,
         [`${prefixCls}-order-${order}`]: order,
@@ -100,10 +101,10 @@ export default class Col extends React.Component<ColProps, {}> {
       <RowContext.Consumer>
         {({ gutter }) => {
           let style = others.style;
-          if ((gutter as number) > 0) {
+          if (gutter! > 0) {
             style = {
-              paddingLeft: (gutter as number) / 2,
-              paddingRight: (gutter as number) / 2,
+              paddingLeft: gutter! / 2,
+              paddingRight: gutter! / 2,
               ...style,
             };
           }

@@ -7,7 +7,21 @@ import { PaginationConfig } from '../pagination';
 export { PaginationConfig } from '../pagination';
 
 export type CompareFn<T> = (a: T, b: T, sortOrder?: SortOrder) => number;
-export type ColumnFilterItem = { text: string; value: string; children?: ColumnFilterItem[] };
+export type ColumnFilterItem = {
+  text: React.ReactNode;
+  value: string;
+  children?: ColumnFilterItem[];
+};
+
+export interface FilterDropdownProps {
+  prefixCls?: string;
+  setSelectedKeys?: (selectedKeys: string[]) => void;
+  selectedKeys?: string[];
+  confirm?: () => void;
+  clearFilters?: (selectedKeys: string[]) => void;
+  filters?: ColumnFilterItem[];
+  getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
+}
 
 export interface ColumnProps<T> {
   title?:
@@ -20,7 +34,7 @@ export interface ColumnProps<T> {
   filters?: ColumnFilterItem[];
   onFilter?: (value: any, record: T) => boolean;
   filterMultiple?: boolean;
-  filterDropdown?: React.ReactNode | ((props: Object) => React.ReactNode);
+  filterDropdown?: React.ReactNode | ((props: FilterDropdownProps) => React.ReactNode);
   filterDropdownVisible?: boolean;
   onFilterDropdownVisibleChange?: (visible: boolean) => void;
   sorter?: boolean | CompareFn<T>;
@@ -180,7 +194,7 @@ export interface TableState<T> {
 }
 
 export type SelectionItemSelectFn = (key: string[]) => any;
-type GetPopupContainer = (triggerNode?: Element) => HTMLElement;
+type GetPopupContainer = (triggerNode?: HTMLElement) => HTMLElement;
 
 export interface SelectionItem {
   key: string;
@@ -239,10 +253,12 @@ export interface FilterMenuProps<T> {
   getPopupContainer?: GetPopupContainer;
 }
 
-export interface FilterMenuState {
+export interface FilterMenuState<T> {
   selectedKeys: string[];
+  valueKeys: { [name: string]: any };
   keyPathOfSelectedItem: { [key: string]: string };
   visible?: boolean;
+  prevProps: FilterMenuProps<T>;
 }
 
 export type PrepareParamsArgumentsReturn<T> = [
