@@ -25,7 +25,12 @@ const ResizeableTitle = props => {
   }
 
   return (
-    <Resizable width={width} height={0} onResize={onResize}>
+    <Resizable
+      width={width}
+      height={0}
+      onResize={onResize}
+      draggableOpts={{ enableUserSelectHack: false }}
+    >
       <th {...restProps} />
     </Resizable>
   );
@@ -57,7 +62,7 @@ class Demo extends React.Component {
       {
         title: 'Action',
         key: 'action',
-        render: () => <a href="javascript:;">Delete</a>,
+        render: () => <a>Delete</a>,
       },
     ],
   };
